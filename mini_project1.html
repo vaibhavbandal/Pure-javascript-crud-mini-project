@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            list-style-type: none;
+        }
+
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+        }
+   
+        .user-form{
+            width: 500px;
+            margin: auto;
+            border: 1px solid;
+            padding: 10px;
+            line-height: 2;
+        }
+
+      
+
+        #submitButton{
+            width: 125px;
+            display: block;
+            margin: 10px auto;
+            font-size: medium;
+            padding: 0px;
+            height: 30px;
+            border: none;
+            background-color: darkgrey;
+
+        }
+
+        #submitButton:hover{
+            background-color: #03a9f4;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            color: white;
+        }
+
+
+        input{
+            display: block;
+            width: 100%;
+            padding: 4px;
+            outline: none;
+            font-size: 17px;
+            border: none;
+            border: 1px solid;
+        }
+
+
+
+        .user-table{
+            width: 500px;
+            margin: auto;
+        }
+
+    
+
+        .btn2{
+            width: 85px;
+            display: block;
+            font-size: medium;
+            height: 26px;
+            border: none;
+            background-color: darkgrey;
+
+        }
+
+        .btn2:hover{
+            background-color: #03a9f4;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="user-form">
+        <form>
+            <div>
+
+                 <label>First Name</label>
+                 <input type="text" id="fname"/>
+                </div>
+                <div>
+                    
+                    
+                <label>Last Name</label>
+                <input type="text" id="lname"/>
+            </div>
+            <div class="btn-box">
+
+                <button type="button" id="submitButton" onclick="setData()"> Submit </button>
+            </div>
+        </form >
+    </div>
+    <div class="user-table" >
+        <table class="table">
+            <tbody id="tbody">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Delete</th>
+                <th>Update</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+
+    let tbody=document.getElementById('tbody');
+    let fname=document.getElementById('fname');
+    let lname=document.getElementById('lname');
+    let _id=0;
+
+    let rows=[]
+
+    const setData=()=>{
+        
+        let fname_value=fname.value;
+        let lname_value=lname.value;
+
+
+        if(fname_value==''||lname_value=='')
+        return alert('Enter data!')
+
+        let activeId=_id++;
+
+        let tr=document.createElement('tr');
+        tr.innerHTML=`      <td>${fname_value}</td>
+                            <td>${lname_value}</td>
+                            <td><button class='btn2' onclick='deleteMe(${activeId})' >Remove</button> </td>
+                            <td><button class='btn2' onclick='updateMe(${activeId})' >Update</button> </td>
+                            `;
+
+        tbody.appendChild(tr);
+
+        rows.push({
+            id:activeId,
+            fname:fname_value,
+            lname:lname_value,            
+            tr:tr
+        })
+
+        fname.value='';
+        lname.value='';
+       
+        tbody.style.display='';
+
+    }
+ 
+    const deleteMe=(id)=>{
+
+        rows.forEach(element => {
+            if(id===element.id){
+                tbody.removeChild(element.tr);
+            }
+        });
+
+        rows=rows.filter((value,index)=>{
+            return value.id!==id
+        })
+        
+        
+
+    }
+
+    const updateMe=(id)=>{
+
+        tbody.style.display='none';
+        rows.forEach((element)=>{
+            if(element.id===id){
+                fname.value=element.fname,
+                lname.value=element.lname   
+            }
+        })
+
+        deleteMe(id);
+
+    }
+
+  
+</script>
+</html>
